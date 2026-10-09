@@ -1,0 +1,107 @@
+### Eclipse Workspace Patch 1.0
+#P L2J_Mobius_Essence_09.1_Warg
+diff --git dist/game/data/stats/skills/88400-88499.xml dist/game/data/stats/skills/88400-88499.xml
+index e1ab26b..11e5f9c 100644
+--- dist/game/data/stats/skills/88400-88499.xml
++++ dist/game/data/stats/skills/88400-88499.xml
+@@ -606,4 +606,12 @@
+ 				<chance>25</chance>
+ 			</effect>
++			<effect name="CallSkill">
++				<skillId>88468</skillId> <!-- Pierce Defense -->
++				<skillLevel>1</skillLevel>
++			</effect>
++			<effect name="CallSkill">
++				<skillId>88489</skillId> <!-- Protective Barrier Dispel -->
++				<skillLevel>1</skillLevel>
++			</effect>
+ 		</effects>
+ 	</skill>
+@@ -2640,4 +2648,24 @@
+ 				<mode>PER</mode>
+ 			</effect>
++			<effect name="PvpPhysicalSkillDamageBonus">
++				<amount>
++					<value level="1">10</value>
++					<value level="2">20</value>
++				</amount>
++				<mode>PER</mode>
++			</effect>
++			<effect name="PvpPhysicalAttackDamageBonus">
++				<amount>
++					<value level="1">10</value>
++					<value level="2">20</value>
++				</amount>
++				<mode>PER</mode>
++			</effect>
++			<effect name="DefenceTrait">
++				<DISARM>
++					<value level="1">20</value>
++					<value level="2">30</value>
++				</DISARM>
++			</effect>
+ 		</effects>
+ 	</skill>
+@@ -3736,5 +3764,17 @@
+ 		<icon>icon.skill30581</icon>
+ 		<operateType>A2</operateType>
++		<targetType>ENEMY</targetType>
++		<abnormalLevel>1</abnormalLevel>
++		<abnormalTime>2</abnormalTime>
++		<abnormalType>DEFENSE_MODE</abnormalType>
++		<affectScope>SINGLE</affectScope>
++		<basicProperty>NONE</basicProperty>
+ 		<isMagic>4</isMagic>
++		<effects>
++			<effect name="ResistSkill">
++				<skillId1>88408</skillId1>
++				<skillLevel1>1</skillLevel1>
++			</effect>
++		</effects>
+ 	</skill>
+ 	<skill id="88469" toLevel="0" name="skill name">
+@@ -4881,7 +4921,25 @@
+ 	</skill>
+ 	<skill id="88489" toLevel="1" name="Protective Barrier Dispel">
++		<!-- When using Ancient Power: Master, removes the target's barrier with a 50% chance. -->
++		<icon>icon.skill0003</icon>
+ 		<operateType>A1</operateType>
++		<targetType>ENEMY</targetType>
++		<affectScope>SINGLE</affectScope>
++		<basicProperty>NONE</basicProperty>
+ 		<effectPoint>1</effectPoint>
+ 		<isDebuff>true</isDebuff>
++		<conditions>
++			<condition name="OpAffectedBySkill">
++				<skillId>88460</skillId> <!-- Ancient Power: Master -->
++				<skillLevel>2</skillLevel>
++				<affectType>CASTER</affectType>
++			</condition>
++		</conditions>
++		<effects>
++			<effect name="DispelBySlotProbability">
++				<dispel>BARRIER;SAPPHIRE_BARRIER;SOLID_ROSE_BARRIER;KNIGHT_SHIELD;MP_SHIELD;PHOENIX_SHIELD;LIGHT_SHIELD</dispel>
++				<rate>50</rate>
++			</effect>
++		</effects>
+ 	</skill>
+ 	<skill id="88490" toLevel="1" name="Tough Skin">
+@@ -4921,12 +4979,11 @@
+ 			<effect name="DefenceTrait">
+ 				<ANOMALY>10</ANOMALY>
++				<AGGRESSION>50</AGGRESSION>
++				<HATE>50</HATE>
+ 			</effect>
+-			<!-- Enhanced Body 20% -->
+-			<!-- With a 50% chance, triggers Provocation Resistance effect. -->
+-			<!-- <effect name="CallSkill">
+-				<skillId></skillId>
+-				<skillLevel>1</skillLevel>
+-				<chance>50</chance>
+-			</effect> -->
++			<effect name="ResistAbnormalByCategory">
++				<amount>20</amount>
++				<slot>DEBUFF</slot>
++			</effect>
+ 		</effects>
+ 	</skill>

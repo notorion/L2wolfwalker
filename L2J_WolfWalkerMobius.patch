@@ -1,0 +1,172 @@
+### Eclipse Workspace Patch 1.0
+#P L2J_Mobius_14.1_SamuraiCrow
+diff --git dist/game/data/stats/players/skillTrees/Warg/Warg4.xml dist/game/data/stats/players/skillTrees/Warg/Warg4.xml
+index 2df462b..d05e386 100644
+--- dist/game/data/stats/players/skillTrees/Warg/Warg4.xml
++++ dist/game/data/stats/players/skillTrees/Warg/Warg4.xml
+@@ -3,5 +3,16 @@
+ 	<skillTree type="classSkillTree" classId="259" parentClassId="258">
+ 		<!-- Actives -->
+-		<skill skillName="Instinct Dash" skillId="31476" skillLevel="2" getLevel="85" />
++		<skill skillName="Instinct Dash" skillId="31476" skillLevel="2" getLevel="85" levelUpSp="0" />
++		<skill skillName="Moon Agility" skillId="31486" skillLevel="2" getLevel="85" levelUpSp="0" />
++		<skill skillName="Wolf Sense" skillId="31507" skillLevel="1" getLevel="85" levelUpSp="0" />
++		<skill skillName="Warg's Tough Skin" skillId="31508" skillLevel="1" getLevel="85">
++			<item id="81887,39738" count="16" /> <!-- Rune Stone -->
++		</skill>
++		<skill skillName="Warg's Tough Skin" skillId="31508" skillLevel="2" getLevel="110" levelUpSp="87688">
++			<item id="81887,39738" count="32" /> <!-- Rune Stone -->
++		</skill>
++		<skill skillName="Warg's Tough Skin" skillId="31508" skillLevel="3" getLevel="120" levelUpSp="436393">
++			<item id="81887,39738" count="64" /> <!-- Rune Stone -->
++		</skill>
+ 		<skill skillName="Warg's Red Alert" skillId="31472" skillLevel="2" getLevel="85" />
+ 		<skill skillName="Warg's Red Alert" skillId="31472" skillLevel="3" getLevel="102" levelUpSp="25372" />
+diff --git dist/game/data/stats/skills/31400-31499.xml dist/game/data/stats/skills/31400-31499.xml
+index a0c5d5d..374dd6f 100644
+--- dist/game/data/stats/skills/31400-31499.xml
++++ dist/game/data/stats/skills/31400-31499.xml
+@@ -4758,5 +4758,5 @@
+ 		<operateType>A1</operateType>
+ 	</skill>
+-	<skill id="31486" toLevel="1" name="Moon Agility">
++	<skill id="31486" toLevel="2" name="Moon Agility">
+ 		<!-- Level 1: Swiftly moves for 300 units forward. -->
+ 		<!-- Level 2: Swiftly moves for 600 units forward. -->
+@@ -4789,10 +4789,21 @@
+ 		<hitTime>500</hitTime>
+ 		<isMagic>1</isMagic>
+-		<mpConsume>5</mpConsume>
++		<magicLevel>
++			<value level="1">1</value>
++			<value level="2">85</value>
++		</magicLevel>
++		<mpConsume>
++			<value level="1">5</value>
++			<value level="2">38</value>
++		</mpConsume>
+ 		<reuseDelay>15000</reuseDelay>
+ 		<conditions>
+ 			<condition name="OpBlink">
+ 				<direction>FRONT</direction>
+-				<range>300</range>
++				<range>
++					<value level="1">300</value>
++					<value level="2">600</value>
++					<value fromLevel="2" toLevel="2" fromSubLevel="1001" toSubLevel="1020">{base + (10 * subIndex)}</value>
++				</range>
+ 			</condition>
+ 		</conditions>
+@@ -4800,5 +4811,9 @@
+ 			<effect name="Blink">
+ 				<angle>180</angle> <!-- Teleport to Front -->
+-				<range>300</range>
++				<range>
++					<value level="1">300</value>
++					<value level="2">600</value>
++					<value fromLevel="2" toLevel="2" fromSubLevel="1001" toSubLevel="1020">{base + (10 * subIndex)}</value>
++				</range>
+ 			</effect>
+ 		</effects>
+diff --git dist/game/data/stats/skills/31500-31599.xml dist/game/data/stats/skills/31500-31599.xml
+index 24ffe7d..266b768 100644
+--- dist/game/data/stats/skills/31500-31599.xml
++++ dist/game/data/stats/skills/31500-31599.xml
+@@ -51,4 +51,8 @@
+ 		<icon>icon.s_cyclone_claw_upgrade</icon>
+ 		<operateType>A1</operateType>
++		<targetType>SELF</targetType>
++		<affectScope>POINT_BLANK</affectScope>
++		<affectRange>300</affectRange>
++		<affectObject>NOT_FRIEND</affectObject>
+ 		<coolTime>500</coolTime>
+ 		<hitTime>1200</hitTime>
+@@ -63,4 +67,13 @@
+ 			</condition>
+ 		</conditions>
++		<effects>
++			<effect name="Detection" />
++			<effect name="DispelBySlot">
++				<dispel>HIDE,9</dispel>
++			</effect>
++			<effect name="BlockAbnormalSlot">
++				<slot>HIDE</slot>
++			</effect>
++		</effects>
+ 	</skill>
+ 	<skill id="31508" toLevel="3" name="Warg's Tough Skin">
+@@ -69,8 +82,14 @@
+ 		<!-- Level 3: The wolf's hide becomes even thicker. For 15 sec., creates a barrier that absorbs 100,000 damage. Received damage limit: 25,000. Requires a fist weapon. Consumes 15 Soulstones. -->
+ 		<icon>icon.s_wild_evolution</icon>
+-		<operateType>A1</operateType>
++		<operateType>A2</operateType>
++		<targetType>SELF</targetType>
++		<abnormalTime>15</abnormalTime>
++		<abnormalType>BARRIER</abnormalType>
++		<abnormalVisualEffect>B_S_Y_BARRIER2_AVE</abnormalVisualEffect>
+ 		<coolTime>500</coolTime>
+ 		<effectPoint>379</effectPoint>
+ 		<hitTime>1500</hitTime>
++		<itemConsumeCount>15</itemConsumeCount>
++		<itemConsumeId>1785</itemConsumeId> <!-- Soulstone -->
+ 		<mpConsume>
+ 			<value level="1">123</value>
+@@ -79,4 +98,5 @@
+ 		</mpConsume>
+ 		<reuseDelay>120000</reuseDelay>
++		<staticReuse>true</staticReuse>
+ 		<conditions>
+ 			<condition name="EquipWeapon">
+@@ -86,4 +106,16 @@
+ 			</condition>
+ 		</conditions>
++		<effects>
++			<effect name="AbsorbDamage">
++				<damage>100000</damage>
++			</effect>
++			<effect name="GetDamageLimit">
++				<amount>
++					<value level="1">0</value>
++					<value level="2">50000</value>
++					<value level="3">25000</value>
++				</amount>
++			</effect>
++		</effects>
+ 	</skill>
+ 	<skill id="31509" toLevel="6" name="Exalted - Attack">
+diff --git java/org/l2jmobius/gameserver/network/clientpackets/RequestAcquireSkill.java java/org/l2jmobius/gameserver/network/clientpackets/RequestAcquireSkill.java
+index f7e88a2..c297f3c 100644
+--- java/org/l2jmobius/gameserver/network/clientpackets/RequestAcquireSkill.java
++++ java/org/l2jmobius/gameserver/network/clientpackets/RequestAcquireSkill.java
+@@ -36,4 +36,5 @@
+ import org.l2jmobius.gameserver.entity.actor.holders.player.SubClassHolder;
+ import org.l2jmobius.gameserver.entity.actor.instance.Fisherman;
++import org.l2jmobius.gameserver.entity.actor.transform.Transform;
+ import org.l2jmobius.gameserver.entity.clan.Clan;
+ import org.l2jmobius.gameserver.entity.clan.ClanAccess;
+@@ -113,5 +114,6 @@
+ 		}
+ 		
+-		if (player.isTransformed() || player.isMounted())
++		final Transform transform = player.getTransformation();
++		if (player.isMounted() || ((transform != null) && transform.isNonCombat()))
+ 		{
+ 			player.sendPacket(SystemMessageId.YOU_CANNOT_USE_THE_SKILL_ENHANCING_FUNCTION_IN_THIS_STATE_YOU_CAN_ENHANCE_SKILLS_WHEN_NOT_IN_BATTLE_AND_CANNOT_USE_THE_FUNCTION_WHILE_TRANSFORMED_IN_BATTLE_ON_A_MOUNT_OR_WHILE_THE_SKILL_IS_ON_COOLDOWN);
+diff --git java/org/l2jmobius/gameserver/network/serverpackets/AcquireSkillList.java java/org/l2jmobius/gameserver/network/serverpackets/AcquireSkillList.java
+index f3c6e32..82c84c9 100644
+--- java/org/l2jmobius/gameserver/network/serverpackets/AcquireSkillList.java
++++ java/org/l2jmobius/gameserver/network/serverpackets/AcquireSkillList.java
+@@ -29,4 +29,5 @@
+ import org.l2jmobius.gameserver.data.xml.SkillTreeData;
+ import org.l2jmobius.gameserver.entity.actor.Player;
++import org.l2jmobius.gameserver.entity.actor.transform.Transform;
+ import org.l2jmobius.gameserver.entity.item.holders.ItemHolder;
+ import org.l2jmobius.gameserver.mechanics.skill.Skill;
+@@ -49,5 +50,6 @@
+ 			_player = player;
+ 			
+-			if (player.isTransformed())
++			final Transform transform = player.getTransformation();
++			if ((transform != null) && transform.isNonCombat())
+ 			{
+ 				_learnable = Collections.emptyList();
